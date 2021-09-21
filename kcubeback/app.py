@@ -1,9 +1,11 @@
+import sys
+sys.path.append('./')#
 from flask import Flask
 from flask_restful import Api
 from flask_cors import CORS
-from k.resoures.foo import Foo
-
+from kcubeback.resources.foo import Foo
 app = Flask(__name__)
+app.config['DATABASE']=":memory:" ## change it to create an actual database
 CORS(app)
 api = Api(app)
 
