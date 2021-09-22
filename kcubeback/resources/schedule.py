@@ -1,23 +1,28 @@
-from flask_restful import Resource, reqparse, fields, marshal
+from flask_restful import Resource, fields, marshal
 from flask import request, jsonify
 import datetime
-from ..common.db import get_db
+from ..common.db import get_db, where
 
 resource_fields = {
     "schedule_id": fields.Integer,
     "person_id": fields.Integer,
     "course_id": fields.Integer,
-    "create_datetime": fields.DateTime,
-    "last_update": fields.DateTime,
+    "create_datetime": fields.String,
+    "last_update": fields.String,
 }
 
 
 class Schedules(Resource):
     def get(self):
+        
+        try:
+            json_data = request.get_json(force=True)
+        except:
+            json_data = {}
         try:
             db = get_db()
             cur = db.cursor()
-            cur.execute("select * from schedules")
+            cur.execute("select * from schedules" + where(json_data, resource_fields))
             rows = cur.fetchall()
         except:
             return None, 204
@@ -46,14 +51,18 @@ class Schedule(Resource):
         return marshal(row, resource_fields), 200
 
     def post(self):
-        json_data = request.get_json(force=True)
+        
+        try:
+            json_data = request.get_json(force=True)
+        except:
+            json_data = {}
         try:
             db = get_db()
             cur = db.cursor()
             now = datetime.datetime.now()
             cur.execute(
-                "INSERT INTO schedules(person_id,course_id,create_datetime,last_update) VALUES (?,?,?,?)",
-                (json_data["person_id"], json_data["course_id"], now, now),
+                "INSERT INTO schedules(person_id,course_id,create_datetime,last_update) VALUES (?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)",
+                (json_data["person_id"], json_data["course_id"]),
             )
             db.commit()
 
@@ -68,14 +77,18 @@ class Schedule(Resource):
     def put(self, schedule_id):
         if schedule_id is None:
             return None, 400
-        json_data = request.get_json(force=True)
+        
+        try:
+            json_data = request.get_json(force=True)
+        except:
+            json_data = {}
         try:
             db = get_db()
             cur = db.cursor()
             now = datetime.datetime.now()
             cur.execute(
-                "UPDATE schedules SET person_id = ?, course_id = ?, last_update =? WHERE schedule_id = ?",
-                (json_data["person_id"], json_data["course_id"], now, schedule_id),
+                "UPDATE schedules SET person_id = ?, course_id = ?, last_update = CURRENT_TIMESTAMP WHERE schedule_id = ?",
+                (json_data["person_id"], json_data["course_id"], schedule_id),
             )
             db.commit()
             cur.execute(

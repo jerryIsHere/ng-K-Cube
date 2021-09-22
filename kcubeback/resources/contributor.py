@@ -1,6 +1,6 @@
-from flask_restful import Resource, reqparse, fields, marshal
+from flask_restful import Resource, fields, marshal
 from flask import request, jsonify
-from ..common.db import get_db
+from ..common.db import get_db, where
 
 resource_fields = {
     "person_id": fields.Integer,
@@ -11,9 +11,15 @@ resource_fields = {
 class Contributors(Resource):
     def get(self):
         try:
+            json_data = request.get_json(force=True)
+        except:
+            json_data = {}
+        try:
             db = get_db()
             cur = db.cursor()
-            cur.execute("select * from contributors")
+            cur.execute(
+                "select * from contributors" + where(json_data, resource_fields)
+            )
             rows = cur.fetchall()
         except:
             return None, 204
@@ -42,7 +48,11 @@ class Contributor(Resource):
         return marshal(row, resource_fields), 200
 
     def post(self):
-        json_data = request.get_json(force=True)
+        
+        try:
+            json_data = request.get_json(force=True)
+        except:
+            json_data = {}
         try:
             db = get_db()
             cur = db.cursor()
@@ -64,7 +74,11 @@ class Contributor(Resource):
     def put(self, person_id):
         if person_id is None:
             return None, 400
-        json_data = request.get_json(force=True)
+        
+        try:
+            json_data = request.get_json(force=True)
+        except:
+            json_data = {}
         try:
             db = get_db()
             cur = db.cursor()

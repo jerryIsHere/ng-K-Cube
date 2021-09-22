@@ -1,5 +1,5 @@
 import sqlite3
-
+from flask_restful import fields
 import click
 from flask import current_app, g
 from flask.cli import with_appcontext
@@ -10,7 +10,21 @@ DATABASE_NAME = "kcube.db"
 def get_db():
     db = sqlite3.connect(DATABASE_NAME, detect_types=sqlite3.PARSE_DECLTYPES)
     db.row_factory = sqlite3.Row
+    db.execute("PRAGMA foreign_keys = 1")
     return db
+
+
+def where(json, resources):
+    condition = [
+        (key + " = " + json[key])
+        if resources[key] != fields.String
+        else ("INSTR(" + key + ",'" + str(json[key]) + "') > 1")
+        for key in json
+        if key in resources
+    ]
+    if len(condition) < 1:
+        return ""
+    return " WHERE " + ",".join(condition)
 
 
 def create_tables():
@@ -50,12 +64,12 @@ def create_tables():
             """,
         """CREATE TABLE IF NOT EXISTS entities(
                 entity_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
+                name TEXT NOT NULL
             )
             """,
         """CREATE TABLE IF NOT EXISTS relationships(
                 relationship_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
+                name TEXT NOT NULL
             )
             """,
         """CREATE TABLE IF NOT EXISTS schedules(

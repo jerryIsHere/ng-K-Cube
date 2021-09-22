@@ -1,6 +1,6 @@
-from flask_restful import Resource, reqparse, fields, marshal
+from flask_restful import Resource, fields, marshal
 from flask import request, jsonify
-from ..common.db import get_db
+from ..common.db import get_db, where
 
 resource_fields = {
     "course_id": fields.Integer,
@@ -11,10 +11,15 @@ resource_fields = {
 
 class Courses(Resource):
     def get(self):
+
+        try:
+            json_data = request.get_json(force=True)
+        except:
+            json_data = {}
         try:
             db = get_db()
             cur = db.cursor()
-            cur.execute("select * from courses")
+            cur.execute("select * from courses" + where(json_data, resource_fields))
             rows = cur.fetchall()
         except:
             return None, 204
@@ -43,18 +48,21 @@ class Course(Resource):
         return marshal(row, resource_fields), 200
 
     def post(self):
-        json_data = request.get_json(force=True)
+
+        try:
+            json_data = request.get_json(force=True)
+        except:
+            json_data = {}
         try:
             db = get_db()
             cur = db.cursor()
             cur.execute(
-                "INSERT INTO courses(course_code,course_name) VALUES (?,?)", (json_data["course_code"],json_data["course_name"])
+                "INSERT INTO courses(course_code,course_name) VALUES (?,?)",
+                (json_data["course_code"], json_data["course_name"]),
             )
             db.commit()
 
-            cur.execute(
-                "select * from courses where course_id = ?", (cur.lastrowid,)
-            )
+            cur.execute("select * from courses where course_id = ?", (cur.lastrowid,))
             row = cur.fetchone()
         except Exception as e:
             return e, 500
@@ -65,13 +73,17 @@ class Course(Resource):
     def put(self, course_id):
         if course_id is None:
             return None, 400
-        json_data = request.get_json(force=True)
+
+        try:
+            json_data = request.get_json(force=True)
+        except:
+            json_data = {}
         try:
             db = get_db()
             cur = db.cursor()
             cur.execute(
                 "UPDATE courses SET course_code = ?, course_name = ? WHERE course_id = ?",
-                (json_data["course_code"],json_data["course_name"], course_id),
+                (json_data["course_code"], json_data["course_name"], course_id),
             )
             db.commit()
             cur.execute(

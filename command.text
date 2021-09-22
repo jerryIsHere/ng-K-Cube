@@ -1,5 +1,11 @@
 ..\virtualenv\k-cube-env\Scripts\activate.bat
 python ./kcubeback/app.py
 
-curl http://127.0.0.1:5000/contributor
+curl http://127.0.0.1:5000/contributors
+curl http://127.0.0.1:5000/contributors -d {\"name\":\"ry\"} -X GET -v
 curl http://127.0.0.1:5000/contributor -H "Content-Type: application/json;" -d {\"name\":\"jerry\"} POST -v
+curl http://127.0.0.1:5000/contributor -H "Content-Type: application/json;" -d {\"name\":\"tom\"} POST -v
+curl http://127.0.0.1:5000/contributor -H "Content-Type: application/json;" -d {\"name\":\"mary\"} POST -v
+curl http://127.0.0.1:5000/course -H "Content-Type: application/json;" -d {\"course_code\":\"COMP1001\",\"course_name\":\"dummy1\"} POST -v
+curl http://127.0.0.1:5000/course -H "Content-Type: application/json;" -d {\"course_code\":\"COMP1002\",\"course_name\":\"dummy2\"} POST -v
+curl http://127.0.0.1:5000/graph -H "Content-Type: application/json;" -d {\"person_id\":\"3\",\"course_id\":\"2\"} POST -v

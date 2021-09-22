@@ -1,7 +1,7 @@
-from flask_restful import Resource, reqparse, fields, marshal
+from flask_restful import Resource, fields, marshal
 from flask import request, jsonify
 import datetime
-from ..common.db import get_db
+from ..common.db import get_db, where
 
 resource_fields = {
     "triple_id": fields.Integer,
@@ -14,11 +14,16 @@ resource_fields = {
 
 class Triples(Resource):
     def get(self):
-        json_data = request.get_json(force=True)
+        if request.data == None and request.data == "":
+            json_data = {}
+        try:
+            json_data = request.get_json(force=True)
+        except:
+            json_data = {}
         try:
             db = get_db()
             cur = db.cursor()
-            cur.execute("select * from triples")
+            cur.execute("select * from triples" + where(json_data, resource_fields))
             rows = cur.fetchall()
         except:
             return None, 204
@@ -47,7 +52,12 @@ class Triple(Resource):
         return marshal(row, resource_fields), 200
 
     def post(self):
-        json_data = request.get_json(force=True)
+        if request.data == None and request.data == "":
+            json_data = {}
+        try:
+            json_data = request.get_json(force=True)
+        except:
+            json_data = {}
         try:
             db = get_db()
             cur = db.cursor()
@@ -74,7 +84,12 @@ class Triple(Resource):
     def put(self, triple_id):
         if triple_id is None:
             return None, 400
-        json_data = request.get_json(force=True)
+        if request.data == None and request.data == "":
+            json_data = {}
+        try:
+            json_data = request.get_json(force=True)
+        except:
+            json_data = {}
         try:
             db = get_db()
             cur = db.cursor()

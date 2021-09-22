@@ -1,7 +1,7 @@
-from flask_restful import Resource, reqparse, fields, marshal
+from flask_restful import Resource, fields, marshal
 from flask import request, jsonify
 import datetime
-from ..common.db import get_db
+from ..common.db import get_db, where
 
 resource_fields = {
     "teaching_id": fields.Integer,
@@ -14,11 +14,15 @@ resource_fields = {
 
 class Teachings(Resource):
     def get(self):
-        json_data = request.get_json(force=True)
+        
+        try:
+            json_data = request.get_json(force=True)
+        except:
+            json_data = {}
         try:
             db = get_db()
             cur = db.cursor()
-            cur.execute("select * from teachings")
+            cur.execute("select * from teachings" + where(json_data, resource_fields))
             rows = cur.fetchall()
         except:
             return None, 204
@@ -47,7 +51,11 @@ class Teaching(Resource):
         return marshal(row, resource_fields), 200
 
     def post(self):
-        json_data = request.get_json(force=True)
+        
+        try:
+            json_data = request.get_json(force=True)
+        except:
+            json_data = {}
         try:
             db = get_db()
             cur = db.cursor()
@@ -63,7 +71,9 @@ class Teaching(Resource):
             )
             db.commit()
 
-            cur.execute("select * from teachings where teaching_id = ?", (cur.lastrowid,))
+            cur.execute(
+                "select * from teachings where teaching_id = ?", (cur.lastrowid,)
+            )
             row = cur.fetchone()
         except Exception as e:
             return e, 500
@@ -74,7 +84,11 @@ class Teaching(Resource):
     def put(self, teaching_id):
         if teaching_id is None:
             return None, 400
-        json_data = request.get_json(force=True)
+        
+        try:
+            json_data = request.get_json(force=True)
+        except:
+            json_data = {}
         try:
             db = get_db()
             cur = db.cursor()

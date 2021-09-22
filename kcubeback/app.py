@@ -8,7 +8,7 @@ from kcubeback.common.db import create_tables
 from kcubeback.resources.contributor import Contributor, Contributors
 from kcubeback.resources.course import Course, Courses
 from kcubeback.resources.graph import Graph, Graphs
-from kcubeback.resources.tripple import Tripple, Tripples
+from kcubeback.resources.triple import Triple, Triples
 from kcubeback.resources.entity import Entity, Entities
 from kcubeback.resources.relationship import Relationship, Relationships
 from kcubeback.resources.schedule import Schedule, Schedules
@@ -44,15 +44,15 @@ api.add_resource(
     "/graphs",
 )
 api.add_resource(
-    Tripple,
-    "/tripple",
-    "/tripple/",
-    "/tripple/<string:tripple_id>",
-    endpoint="tripple_id",
+    Triple,
+    "/triple",
+    "/triple/",
+    "/triple/<string:triple_id>",
+    endpoint="triple_id",
 )
 api.add_resource(
-    Tripples,
-    "/tripples",
+    Triples,
+    "/triples",
 )
 api.add_resource(
     Entity, "/entity", "/entity/", "/entity/<string:entity_id>", endpoint="entity_id"
@@ -97,4 +97,5 @@ api.add_resource(
 
 if __name__ == "__main__":
     create_tables()
+
     app.run(debug=True)
