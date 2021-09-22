@@ -8,7 +8,9 @@ DATABASE_NAME = "kcube.db"
 
 
 def get_db():
-    return sqlite3.connect(DATABASE_NAME, detect_types=sqlite3.PARSE_DECLTYPES)
+    db = sqlite3.connect(DATABASE_NAME, detect_types=sqlite3.PARSE_DECLTYPES)
+    db.row_factory = sqlite3.Row
+    return db
 
 
 def create_tables():
@@ -40,7 +42,20 @@ def create_tables():
                 head_entity TEXT NOT NULL,
                 relationship TEXT NOT NULL,
                 tail_entity TEXT NOT NULL,
-                FOREIGN KEY(graph_id) REFERENCES graphs(graph_id)
+                FOREIGN KEY(graph_id) REFERENCES graphs(graph_id),
+                FOREIGN KEY(head_entity) REFERENCES entities(entity_id),
+                FOREIGN KEY(tail_entity) REFERENCES entities(entity_id),
+                FOREIGN KEY(relationship) REFERENCES relationships(relationship_id)
+            )
+            """,
+        """CREATE TABLE IF NOT EXISTS entities(
+                entity_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+            )
+            """,
+        """CREATE TABLE IF NOT EXISTS relationships(
+                relationship_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
             )
             """,
         """CREATE TABLE IF NOT EXISTS schedules(
@@ -56,10 +71,11 @@ def create_tables():
         """CREATE TABLE IF NOT EXISTS teachings(
                 teaching_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 schedule_id INTEGER NOT NULL,
-                duration int NOT NULL,
-                next_teaching_id INTEGER,
+                entity_id INTEGER NOT NULL,
+                start INTEGER NOT NULL,
+                duration INTEGER NOT NULL,
                 FOREIGN KEY(schedule_id) REFERENCES schedules(schedule_id),
-                FOREIGN KEY(next_teaching_id) REFERENCES teachings(teaching_id)
+                FOREIGN KEY(entity_id) REFERENCES entities(entity_id)
             )
             """,
     ]

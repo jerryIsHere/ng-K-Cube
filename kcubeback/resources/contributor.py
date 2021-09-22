@@ -1,86 +1,96 @@
-from flask_restful import Resource, reqparse, fields, marshal_with
+from flask_restful import Resource, reqparse, fields, marshal
+from flask import request, jsonify
 from ..common.db import get_db
 
-identifier_parser = reqparse.RequestParser()
-identifier_parser.add_argument("person_id", required=True, help="id cannot be blank!")
 resource_fields = {
     "person_id": fields.Integer,
     "name": fields.String,
 }
-content_parser = reqparse.RequestParser()
-content_parser.add_argument("name", required=True, help="person name cannot be blank!")
+
+
+class Contributors(Resource):
+    def get(self):
+        try:
+            db = get_db()
+            cur = db.cursor()
+            cur.execute("select * from contributors")
+            rows = cur.fetchall()
+        except:
+            return None, 204
+        finally:
+            db.close()
+        if rows == None:
+            return None, 204
+        return marshal(rows, resource_fields), 200
 
 
 class Contributor(Resource):
-    @marshal_with(resource_fields)
-    def get(self):
-        parser = identifier_parser.copy()
-        args = parser.parse_args()
+    def get(self, person_id=None):
+        if person_id is None:
+            return None, 400
         try:
             db = get_db()
             cur = db.cursor()
-            cur.execute(
-                "select * from contributors where person_id = ?", (args.person_id)
-            )
+            cur.execute("select * from contributors where person_id = ?", (person_id))
             row = cur.fetchone()
         except:
-            return {}, 404
+            return None, 204
         finally:
             db.close()
-        return row
+        if row == None:
+            return None, 204
+        return marshal(row, resource_fields), 200
 
-    @marshal_with(resource_fields)
     def post(self):
-        parser = content_parser.copy()
-        args = parser.parse_args()
+        json_data = request.get_json(force=True)
         try:
             db = get_db()
             cur = db.cursor()
-            cur.execute("INSERT INTO contributors (name) VALUES (?)", (args.name))
-            db.commit()
             cur.execute(
-                "select * from contributors where person_id = ?", (cur.lastrowid)
+                "INSERT INTO contributors(name) VALUES (?)", (json_data["name"],)
+            )
+            db.commit()
+
+            cur.execute(
+                "select * from contributors where person_id = ?", (cur.lastrowid,)
             )
             row = cur.fetchone()
-        except:
-            row = {}
+        except Exception as e:
+            return e, 500
         finally:
             db.close()
-        return row
+        return marshal(row, resource_fields), 200
 
-    def put(self):
-        parser = identifier_parser.copy()
-        args_id = parser.parse_args()
-        parser = content_parser.copy()
-        args_content = parser.parse_args()
+    def put(self, person_id):
+        if person_id is None:
+            return None, 400
+        json_data = request.get_json(force=True)
         try:
             db = get_db()
             cur = db.cursor()
             cur.execute(
                 "UPDATE contributors SET name = ? WHERE person_id = ?",
-                (args_content.name, args_id.person_id),
+                (json_data["name"], person_id),
             )
             db.commit()
             cur.execute(
                 "select * from contributors where person_id = ?",
-                (args_content.person_id),
+                (person_id),
             )
             row = cur.fetchone()
         except:
             row = {}
         finally:
             db.close()
-        return row
+        return marshal(row, resource_fields), 200
 
-    def delete(self):
-        parser = identifier_parser.copy()
-        args = parser.parse_args()
+    def delete(self, person_id):
+        if person_id is None:
+            return None, 400
         try:
             db = get_db()
             cur = db.cursor()
-            cur.execute(
-                "DELETE from contributors where person_id = ?", (args.person_id)
-            )
+            cur.execute("DELETE from contributors where person_id = ?", (person_id))
             db.commit()
         except:
             db.rollback()

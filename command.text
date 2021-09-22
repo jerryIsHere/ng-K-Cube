@@ -1,0 +1,5 @@
+..\virtualenv\k-cube-env\Scripts\activate.bat
+python ./kcubeback/app.py
+
+curl http://127.0.0.1:5000/contributor
+curl http://127.0.0.1:5000/contributor -H "Content-Type: application/json;" -d {\"name\":\"jerry\"} POST -v
