@@ -1,28 +1,32 @@
-from flask_restful import Resource, fields, marshal
+from flask_restful import Resource, fields as flask_fields, marshal
 from flask import request, jsonify
 import datetime
 from ..common.db import get_db, where
+from marshmallow import Schema, fields as marshmallow_fields
 
 resource_fields = {
-    "graph_id": fields.Integer,
-    "person_id": fields.Integer,
-    "course_id": fields.Integer,
-    "create_datetime": fields.String,
-    "last_update": fields.String,
+    "graph_id": flask_fields.Integer,
+    "person_id": flask_fields.Integer,
+    "course_id": flask_fields.Integer,
+    "create_datetime": flask_fields.String,
+    "last_update": flask_fields.String,
 }
 
+class QuerySchema(Schema):
+    graph_id = marshmallow_fields.Integer()
+    person_id = marshmallow_fields.Integer()
+    course_id = marshmallow_fields.Integer()
+    create_datetime = marshmallow_fields.Str()
+    last_update = marshmallow_fields.Str()
 
 class Graphs(Resource):
     def get(self):
-        
-        try:
-            json_data = request.get_json(force=True)
-        except:
-            json_data = {}
+        error = QuerySchema().validate(request.args)
+        query = QuerySchema().dump(request.args)
         try:
             db = get_db()
             cur = db.cursor()
-            cur.execute("select * from graphs" + where(json_data, resource_fields))
+            cur.execute("select * from graphs" + where(query, resource_fields))
             rows = cur.fetchall()
         except:
             return None, 204

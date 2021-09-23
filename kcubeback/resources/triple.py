@@ -1,15 +1,22 @@
-from flask_restful import Resource, fields, marshal
+from flask_restful import Resource, fields as flask_fields, marshal
 from flask import request, jsonify
 import datetime
 from ..common.db import get_db, where
+from marshmallow import Schema, fields as marshmallow_fields
 
 resource_fields = {
-    "triple_id": fields.Integer,
-    "graph_id": fields.Integer,
-    "head_entity": fields.Integer,
-    "relationship": fields.Integer,
-    "tail_entity": fields.Integer,
+    "triple_id": flask_fields.Integer,
+    "graph_id": flask_fields.Integer,
+    "head_entity": flask_fields.Integer,
+    "relationship": flask_fields.Integer,
+    "tail_entity": flask_fields.Integer,
 }
+class QuerySchema(Schema):
+    triple_id = marshmallow_fields.Integer()
+    graph_id = marshmallow_fields.Integer()
+    head_entity = marshmallow_fields.Integer()
+    relationship = marshmallow_fields.Integer()
+    tail_entity = marshmallow_fields.Integer()
 
 
 class Triples(Resource):
@@ -23,7 +30,7 @@ class Triples(Resource):
         try:
             db = get_db()
             cur = db.cursor()
-            cur.execute("select * from triples" + where(json_data, resource_fields))
+            cur.execute("select * from triples" + where(query, resource_fields))
             rows = cur.fetchall()
         except:
             return None, 204

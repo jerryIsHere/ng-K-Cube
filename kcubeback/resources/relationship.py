@@ -1,25 +1,26 @@
-from flask_restful import Resource, fields, marshal
+from flask_restful import Resource, fields as flask_fields, marshal
 from flask import request, jsonify
 import datetime
 from ..common.db import get_db, where
+from marshmallow import Schema, fields as marshmallow_fields
 
 resource_fields = {
-    "relationship_id": fields.Integer,
-    "name": fields.String,
+    "relationship_id": flask_fields.Integer,
+    "name": flask_fields.String,
 }
 
+class QuerySchema(Schema):
+    relationship_id = marshmallow_fields.Integer()
+    name = marshmallow_fields.Str()
 
 class Relationships(Resource):
     def get(self):
-        
-        try:
-            json_data = request.get_json(force=True)
-        except:
-            json_data = {}
+        error = QuerySchema().validate(request.args)
+        query = QuerySchema().dump(request.args)
         try:
             db = get_db()
             cur = db.cursor()
-            cur.execute("select * from relationships" + where(json_data, resource_fields))
+            cur.execute("select * from relationships" + where(query, resource_fields))
             rows = cur.fetchall()
         except:
             return None, 204

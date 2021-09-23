@@ -3,7 +3,9 @@ python ./kcubeback/app.py
 
 curl http://127.0.0.1:5000/contributors
 
-curl http://127.0.0.1:5000/contributors -d {\"name\":\"ry\"} -X GET -v
+curl "http://127.0.0.1:5000/contributors?name=ry"
+curl "http://127.0.0.1:5000/contributors?name=ry&person_id=1"
+
 curl http://127.0.0.1:5000/contributor -H "Content-Type: application/json;" -d {\"name\":\"jerry\"} -X POST -v
 curl http://127.0.0.1:5000/contributor -H "Content-Type: application/json;" -d {\"name\":\"tom\"} -X POST -v
 curl http://127.0.0.1:5000/contributor -H "Content-Type: application/json;" -d {\"name\":\"mary\"} -X POST -v

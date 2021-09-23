@@ -16,10 +16,8 @@ class QuerySchema(Schema):
 
 class Contributors(Resource):
     def get(self):
-        try:
-            query = QuerySchema().validate(request.args)
-        except:
-            query = {}
+        error = QuerySchema().validate(request.args)
+        query = QuerySchema().dump(request.args)
         try:
             db = get_db()
             cur = db.cursor()

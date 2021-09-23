@@ -1,26 +1,29 @@
-from flask_restful import Resource, fields, marshal
+from flask_restful import Resource, fields as flask_fields, marshal
 from flask import request, jsonify
 from ..common.db import get_db, where
+from marshmallow import Schema, fields as marshmallow_fields
 
 resource_fields = {
-    "course_id": fields.Integer,
-    "entity_id": fields.Integer,
-    "course_code": fields.String,
-    "course_name": fields.String,
+    "course_id": flask_fields.Integer,
+    "entity_id": flask_fields.Integer,
+    "course_code": flask_fields.String,
+    "course_name": flask_fields.String,
 }
 
+class QuerySchema(Schema):
+    course_id = marshmallow_fields.Integer()
+    entity_id = marshmallow_fields.Integer()
+    course_code = marshmallow_fields.Str()
+    course_name = marshmallow_fields.Str()
 
 class Courses(Resource):
     def get(self):
-
-        try:
-            json_data = request.get_json(force=True)
-        except:
-            json_data = {}
+        error = QuerySchema().validate(request.args)
+        query = QuerySchema().dump(request.args)
         try:
             db = get_db()
             cur = db.cursor()
-            cur.execute("select * from courses" + where(json_data, resource_fields))
+            cur.execute("select * from courses" + where(query, resource_fields))
             rows = cur.fetchall()
         except:
             return None, 204

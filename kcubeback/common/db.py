@@ -16,7 +16,7 @@ def get_db():
 
 def where(json, resources):
     condition = [
-        (key + " = " + json[key])
+        (key + " = " + str(json[key]))
         if resources[key] != fields.String
         else ("INSTR(" + key + ",'" + str(json[key]) + "') > 1")
         for key in json
@@ -24,7 +24,7 @@ def where(json, resources):
     ]
     if len(condition) < 1:
         return ""
-    return " WHERE " + ",".join(condition)
+    return " WHERE " + " AND ".join(condition)
 
 
 def create_tables():
