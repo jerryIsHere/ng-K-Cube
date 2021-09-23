@@ -5,8 +5,7 @@ from ..common.db import get_db, where
 
 resource_fields = {
     "schedule_id": fields.Integer,
-    "person_id": fields.Integer,
-    "course_id": fields.Integer,
+    "graph_id": fields.Integer,
     "create_datetime": fields.String,
     "last_update": fields.String,
 }
@@ -61,8 +60,8 @@ class Schedule(Resource):
             cur = db.cursor()
             now = datetime.datetime.now()
             cur.execute(
-                "INSERT INTO schedules(person_id,course_id,create_datetime,last_update) VALUES (?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)",
-                (json_data["person_id"], json_data["course_id"]),
+                "INSERT INTO schedules(graph_id,create_datetime,last_update) VALUES (?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)",
+                (json_data["graph_id"]),
             )
             db.commit()
 
@@ -87,8 +86,8 @@ class Schedule(Resource):
             cur = db.cursor()
             now = datetime.datetime.now()
             cur.execute(
-                "UPDATE schedules SET person_id = ?, course_id = ?, last_update = CURRENT_TIMESTAMP WHERE schedule_id = ?",
-                (json_data["person_id"], json_data["course_id"], schedule_id),
+                "UPDATE schedules SET graph_id = ?, last_update = CURRENT_TIMESTAMP WHERE schedule_id = ?",
+                (json_data["graph_id"], schedule_id),
             )
             db.commit()
             cur.execute(

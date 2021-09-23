@@ -36,8 +36,10 @@ def create_tables():
             """,
         """CREATE TABLE IF NOT EXISTS courses(
                 course_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                course_code CHAR(8) NOT NULL,
-                course_name TEXT NOT NULL
+                entity_id INTEGER  NOT NULL UNIQUE,
+                course_code CHAR(8) NOT NULL UNIQUE,
+                course_name TEXT NOT NULL,
+                FOREIGN KEY(entity_id) REFERENCES entities(entity_id)
             )
             """,
         """CREATE TABLE IF NOT EXISTS graphs(
@@ -64,22 +66,20 @@ def create_tables():
             """,
         """CREATE TABLE IF NOT EXISTS entities(
                 entity_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL
+                name TEXT NOT NULL UNIQUE
             )
             """,
         """CREATE TABLE IF NOT EXISTS relationships(
                 relationship_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL
+                name TEXT NOT NULL UNIQUE
             )
             """,
         """CREATE TABLE IF NOT EXISTS schedules(
                 schedule_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                person_id INTEGER NOT NULL,
-                course_id INTEGER NOT NULL,
+                graph_id INTEGER NOT NULL,
                 create_datetime DATETIME NOT NULL,
                 last_update DATETIME NOT NULL,
-                FOREIGN KEY(person_id) REFERENCES contributors(person_id),
-                FOREIGN KEY(course_id) REFERENCES courses(course_id)
+                FOREIGN KEY(graph_id) REFERENCES graphs(graph_id)
             )
             """,
         """CREATE TABLE IF NOT EXISTS teachings(

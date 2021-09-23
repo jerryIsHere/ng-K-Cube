@@ -30,9 +30,6 @@ class Graphs(Resource):
             db.close()
         if rows == None:
             return None, 204
-        
-        print(rows)
-        print([ each["create_datetime"] for each in rows])
         return marshal(rows, resource_fields), 200
 
 
@@ -74,7 +71,6 @@ class Graph(Resource):
             return e, 500
         finally:
             db.close()
-        print(row)
         return marshal(row, resource_fields), 200
 
     def put(self, graph_id):

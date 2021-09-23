@@ -4,6 +4,7 @@ from ..common.db import get_db, where
 
 resource_fields = {
     "course_id": fields.Integer,
+    "entity_id": fields.Integer,
     "course_code": fields.String,
     "course_name": fields.String,
 }
@@ -53,15 +54,21 @@ class Course(Resource):
             json_data = request.get_json(force=True)
         except:
             json_data = {}
+        print(json_data)
         try:
             db = get_db()
             cur = db.cursor()
+            print(json_data)
             cur.execute(
-                "INSERT INTO courses(course_code,course_name) VALUES (?,?)",
-                (json_data["course_code"], json_data["course_name"]),
+                "INSERT INTO courses(entity_id,course_code,course_name) VALUES (?,?,?)",
+                (
+                    json_data["entity_id"],
+                    json_data["course_code"],
+                    json_data["course_name"],
+                ),
             )
             db.commit()
-
+            print(json_data)
             cur.execute("select * from courses where course_id = ?", (cur.lastrowid,))
             row = cur.fetchone()
         except Exception as e:
@@ -82,8 +89,13 @@ class Course(Resource):
             db = get_db()
             cur = db.cursor()
             cur.execute(
-                "UPDATE courses SET course_code = ?, course_name = ? WHERE course_id = ?",
-                (json_data["course_code"], json_data["course_name"], course_id),
+                "UPDATE courses SET entity_id = ?, course_code = ?, course_name = ? WHERE course_id = ?",
+                (
+                    json_data["entity_id"],
+                    json_data["course_code"],
+                    json_data["course_name"],
+                    course_id,
+                ),
             )
             db.commit()
             cur.execute(
