@@ -1,25 +1,29 @@
-from flask_restful import Resource, fields, marshal
+from flask_restful import Resource, fields as flask_fields, marshal
 from flask import request, jsonify
 from ..common.db import get_db, where
+from marshmallow import Schema, fields as marshmallow_fields
 
 resource_fields = {
-    "person_id": fields.Integer,
-    "name": fields.String,
+    "person_id": flask_fields.Integer,
+    "name": flask_fields.String,
 }
+
+
+class QuerySchema(Schema):
+    person_id = marshmallow_fields.Integer()
+    name = marshmallow_fields.Str()
 
 
 class Contributors(Resource):
     def get(self):
         try:
-            json_data = request.get_json(force=True)
+            query = QuerySchema().validate(request.args)
         except:
-            json_data = {}
+            query = {}
         try:
             db = get_db()
             cur = db.cursor()
-            cur.execute(
-                "select * from contributors" + where(json_data, resource_fields)
-            )
+            cur.execute("select * from contributors" + where(query, resource_fields))
             rows = cur.fetchall()
         except:
             return None, 204
@@ -48,7 +52,7 @@ class Contributor(Resource):
         return marshal(row, resource_fields), 200
 
     def post(self):
-        
+
         try:
             json_data = request.get_json(force=True)
         except:
@@ -74,7 +78,7 @@ class Contributor(Resource):
     def put(self, person_id):
         if person_id is None:
             return None, 400
-        
+
         try:
             json_data = request.get_json(force=True)
         except:

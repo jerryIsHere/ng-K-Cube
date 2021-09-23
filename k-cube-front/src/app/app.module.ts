@@ -9,19 +9,56 @@ import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FilterPipe } from './util/filter.pipe';
+import { FlatMapPipe } from './util/flat-map.pipe';
+
+import { TheGraphComponent } from './page/the-graph/the-graph.component';
+import { AllCoursesComponent } from './page/all-courses/all-courses.component';
+import { MyDriveComponent } from './page/my-drive/my-drive.component';
+import { DeveloperBoardComponent } from './page/developer-board/developer-board.component';
+
+import { LoginFormComponent } from './form/login-form/login-form.component';
+import { ContributorFormComponent } from './form/contributor-form/contributor-form.component';
+import { CourseFormComponent } from './form/course-form/course-form.component';
+import { GraphFormComponent } from './form/graph-form/graph-form.component';
+import { ScheduleFormComponent } from './form/schedule-form/schedule-form.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FilterPipe,
+    FlatMapPipe,
+    TheGraphComponent,
+    AllCoursesComponent,
+    MyDriveComponent,
+    LoginFormComponent,
+    DeveloperBoardComponent,
+    ContributorFormComponent,
+    CourseFormComponent,
+    GraphFormComponent,
+    ScheduleFormComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     MatSidenavModule,
     MatIconModule,
-    BrowserAnimationsModule,
     MatListModule,
     MatTooltipModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

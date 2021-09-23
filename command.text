@@ -1,4 +1,4 @@
-..\virtualenv\k-cube-env\Scripts\activate.bat
+..\virtualenv\k-cube-execute\Scripts\activate.bat
 python ./kcubeback/app.py
 
 curl http://127.0.0.1:5000/contributors

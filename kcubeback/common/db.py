@@ -76,7 +76,7 @@ def create_tables():
             """,
         """CREATE TABLE IF NOT EXISTS schedules(
                 schedule_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                graph_id INTEGER NOT NULL,
+                graph_id INTEGER NOT NULL UNIQUE,
                 create_datetime DATETIME NOT NULL,
                 last_update DATETIME NOT NULL,
                 FOREIGN KEY(graph_id) REFERENCES graphs(graph_id)
