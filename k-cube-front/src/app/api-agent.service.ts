@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+
 class searchResources {
-  search: (params: any) => Observable<any>
+  search: (params: any) => Promise<any>
   constructor(
     public agent: ApiAgentService,
     public name: string,) {
     this.search = (params) => {
-      return this.agent.http.get(this.agent.backend + name, { params: params })
+      return this.agent.http.get(this.agent.backend + name, { params: params }).toPromise()
     }
   }
 }
 class crudResources {
-  get: (id: string, params: any) => Observable<any>
-  post: (params: any, body: any) => Observable<any>
-  put: (id: string, params: any, body: any) => Observable<any>
-  delete: (id: string, params: any) => Observable<any>
-  patch: (id: string, params: any, body: any) => Observable<any>
+  get: (id: string, params: any) => Promise<any>
+  post: (params: any, body: any) => Promise<any>
+  put: (id: string, params: any, body: any) => Promise<any>
+  delete: (id: string, params: any) => Promise<any>
+  patch: (id: string, params: any, body: any) => Promise<any>
   constructor(
     public agent: ApiAgentService,
     public name: string,
@@ -27,23 +27,23 @@ class crudResources {
     isPatchable: boolean,) {
     this.get = (id: string, params) => {
       if (!isGetable) throw new Error('get method on resources ' + name + ' is not allowed');
-      return this.agent.http.get(this.agent.backend + name + '/' + id, { params: params })
+      return this.agent.http.get(this.agent.backend + name + '/' + id, { params: params }).toPromise()
     }
     this.post = (params, body) => {
       if (!isPostable) throw new Error('get method on resources ' + name + ' is not allowed');
-      return this.agent.http.post(this.agent.backend + name + '/', body, { params: params })
+      return this.agent.http.post(this.agent.backend + name + '/', body, { params: params }).toPromise()
     }
     this.put = (id: string, params, body) => {
       if (!isPutable) throw new Error('get method on resources ' + name + ' is not allowed');
-      return this.agent.http.put(this.agent.backend + name + '/' + id, body, { params: params })
+      return this.agent.http.put(this.agent.backend + name + '/' + id, body, { params: params }).toPromise()
     }
     this.delete = (id: string, params) => {
       if (!isDeletable) throw new Error('get method on resources ' + name + ' is not allowed');
-      return this.agent.http.delete(this.agent.backend + name + '/' + id, { params: params })
+      return this.agent.http.delete(this.agent.backend + name + '/' + id, { params: params }).toPromise()
     }
     this.patch = (id: string, params, body) => {
       if (!isPatchable) throw new Error('get method on resources ' + name + ' is not allowed');
-      return this.agent.http.patch(this.agent.backend + name + '/' + id, body, { params: params })
+      return this.agent.http.patch(this.agent.backend + name + '/' + id, body, { params: params }).toPromise()
     }
   }
 
@@ -70,7 +70,6 @@ export class ApiAgentService {
   triple: crudResources = new crudResources(this, "triple", true, true, true, true, false)
   triples: searchResources = new searchResources(this, "triples")
   constructor(public http: HttpClient,) {
-  
   }
 }
 

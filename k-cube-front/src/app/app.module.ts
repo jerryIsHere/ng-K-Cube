@@ -17,6 +17,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FilterPipe } from './util/filter.pipe';
 import { FlatMapPipe } from './util/flat-map.pipe';
+import { HttpClientModule } from '@angular/common/http';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { TheGraphComponent } from './page/the-graph/the-graph.component';
 import { AllCoursesComponent } from './page/all-courses/all-courses.component';
@@ -26,8 +28,6 @@ import { DeveloperBoardComponent } from './page/developer-board/developer-board.
 import { LoginFormComponent } from './form/login-form/login-form.component';
 import { ContributorFormComponent } from './form/contributor-form/contributor-form.component';
 import { CourseFormComponent } from './form/course-form/course-form.component';
-import { GraphFormComponent } from './form/graph-form/graph-form.component';
-import { ScheduleFormComponent } from './form/schedule-form/schedule-form.component';
 
 @NgModule({
   declarations: [
@@ -41,8 +41,6 @@ import { ScheduleFormComponent } from './form/schedule-form/schedule-form.compon
     DeveloperBoardComponent,
     ContributorFormComponent,
     CourseFormComponent,
-    GraphFormComponent,
-    ScheduleFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,6 +57,8 @@ import { ScheduleFormComponent } from './form/schedule-form/schedule-form.compon
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    HttpClientModule,
+    MatDividerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

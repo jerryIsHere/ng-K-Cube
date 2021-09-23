@@ -1,1 +1,21 @@
-<p>course-form works!</p>
+<div mat-dialog-content *ngIf="form">
+    <form [formGroup]="form">
+        <mat-form-field>
+            <mat-label>Course code: </mat-label>
+            <input type="text" matInput formControlName="course_code">
+            <mat-error *ngIf="form?.get('course_code')?.invalid">
+                {{form?.get('course_code')?.hasError('required')?'required':''}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Course name: </mat-label>
+            <input type="text" matInput formControlName="course_name">
+            <mat-error *ngIf="form?.get('course_name')?.invalid">
+                {{form?.get('course_name')?.hasError('required')?'required':''}}
+            </mat-error>
+        </mat-form-field>
+    </form>
+</div>
+<div *ngIf="form" mat-dialog-actions [matTooltip]="(!form.valid)?'the form is not valid':''">
+    <button [disabled]="!form.valid" mat-button cdkFocusInitial (click)="submitForm()">submit</button>
+</div>

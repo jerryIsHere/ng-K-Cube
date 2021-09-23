@@ -18,7 +18,7 @@ def where(json, resources):
     condition = [
         (key + " = " + str(json[key]))
         if resources[key] != fields.String
-        else ("INSTR(" + key + ",'" + str(json[key]) + "') > 1")
+        else ("INSTR(" + key + ",'" + str(json[key]) + "') > 0")
         for key in json
         if key in resources
     ]
@@ -37,7 +37,6 @@ def create_tables():
         """CREATE TABLE IF NOT EXISTS courses(
                 course_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 entity_id INTEGER  NOT NULL UNIQUE,
-                course_code CHAR(8) NOT NULL UNIQUE,
                 course_name TEXT NOT NULL,
                 FOREIGN KEY(entity_id) REFERENCES entities(entity_id)
             )

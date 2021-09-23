@@ -1,1 +1,32 @@
-<p>developer-board works!</p>
+<mat-list role="listbox">
+    <mat-list-item role="option">Contributors
+        <button mat-flat-button (click)="createContributor()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </mat-list-item>
+    <mat-list-item role="option" *ngFor="let contributor of contributors">{{contributor.name}}
+        <button mat-flat-button (click)="deleteContributor(contributor.person_id)">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </mat-list-item>
+</mat-list>
+<mat-divider></mat-divider>
+<mat-list role="listbox">
+    <mat-list-item role="option">Courses
+        <button mat-flat-button (click)="createCourse()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </mat-list-item>
+    <mat-list-item role="option" *ngFor="let course of courses">{{course.course_name}}
+        <button mat-flat-button (click)="api.contributor.delete(course.course_id,{})">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </mat-list-item>
+</mat-list>
+<mat-divider></mat-divider>
+<mat-list role="listbox">
+    <mat-list-item role="option">Entities
+    </mat-list-item>
+    <mat-list-item role="option" *ngFor="let entity of entities">{{entity.name}}
+    </mat-list-item>
+</mat-list>

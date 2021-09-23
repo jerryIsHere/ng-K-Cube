@@ -6,14 +6,12 @@ from marshmallow import Schema, fields as marshmallow_fields
 resource_fields = {
     "course_id": flask_fields.Integer,
     "entity_id": flask_fields.Integer,
-    "course_code": flask_fields.String,
     "course_name": flask_fields.String,
 }
 
 class QuerySchema(Schema):
     course_id = marshmallow_fields.Integer()
     entity_id = marshmallow_fields.Integer()
-    course_code = marshmallow_fields.Str()
     course_name = marshmallow_fields.Str()
 
 class Courses(Resource):
@@ -63,10 +61,9 @@ class Course(Resource):
             cur = db.cursor()
             print(json_data)
             cur.execute(
-                "INSERT INTO courses(entity_id,course_code,course_name) VALUES (?,?,?)",
+                "INSERT INTO courses(entity_id,course_name) VALUES (?,?)",
                 (
                     json_data["entity_id"],
-                    json_data["course_code"],
                     json_data["course_name"],
                 ),
             )
@@ -92,10 +89,9 @@ class Course(Resource):
             db = get_db()
             cur = db.cursor()
             cur.execute(
-                "UPDATE courses SET entity_id = ?, course_code = ?, course_name = ? WHERE course_id = ?",
+                "UPDATE courses SET entity_id = ?, course_name = ? WHERE course_id = ?",
                 (
                     json_data["entity_id"],
-                    json_data["course_code"],
                     json_data["course_name"],
                     course_id,
                 ),

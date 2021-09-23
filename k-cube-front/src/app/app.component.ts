@@ -15,7 +15,7 @@ export class AppComponent {
   login() {
     const dialogRef: MatDialogRef<LoginFormComponent> = this.dialog.open(LoginFormComponent);
     dialogRef.afterClosed().subscribe((result: any) => {
-      this.person_id = result
+      this.person_id = result[0].person_id
     })
   }
   logout() {

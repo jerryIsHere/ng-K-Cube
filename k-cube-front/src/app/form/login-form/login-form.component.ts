@@ -10,7 +10,7 @@ import { ApiAgentService } from '../../api-agent.service';
 })
 export class LoginFormComponent implements OnInit {
   form: FormGroup | null = null
-  constructor() {
+  constructor(public api: ApiAgentService, public dialogRef: MatDialogRef<LoginFormComponent>,) {
     this.form = new FormGroup({
       name: new FormControl({ value: '', disabled: false }, Validators.required),
     })
@@ -19,9 +19,12 @@ export class LoginFormComponent implements OnInit {
   ngOnInit(): void {
   }
   submitForm() {
-    if (this.form?.valid){
-      let body = {...this.form.value}
-      
+    if (this.form?.valid) {
+      let params = { ...this.form.value }
+      this.api.contributors.search(params).then((response) => {
+        if (response.length == 1)this.dialogRef.close(response)
+      })
+
     }
   }
 
