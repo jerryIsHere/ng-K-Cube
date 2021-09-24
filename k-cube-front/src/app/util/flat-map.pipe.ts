@@ -12,7 +12,7 @@ export function nestedAccess(objs: Array<unknown>, mappingKey: Array<string>): A
 })
 export class FlatMapPipe implements PipeTransform {
 
-  transform(objs: Array<unknown>, mappingKey: Array<string>): null | Array<any> {
+  transform(objs: Array<unknown> | null, mappingKey: Array<string> | null): null | Array<any> {
     if (objs == null) return null;
     if (mappingKey == null) return objs;
     return nestedAccess(objs, mappingKey);

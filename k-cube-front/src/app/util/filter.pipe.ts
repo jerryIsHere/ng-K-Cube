@@ -6,7 +6,7 @@ import { nestedAccess } from './flat-map.pipe'
 })
 export class FilterPipe implements PipeTransform {
 
-  transform(objs: Array<unknown>, key: any, values?: Array<unknown>, mappingKey?: Array<string>): null | Array<any> {
+  transform(objs: Array<unknown> | null, key: any, values?: Array<unknown>, mappingKey?: Array<string>): null | Array<any> {
     if (objs == null) return null;
     if (!values) return objs;
     if (typeof key == 'string') {

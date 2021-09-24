@@ -28,6 +28,11 @@ import { DeveloperBoardComponent } from './page/developer-board/developer-board.
 import { LoginFormComponent } from './form/login-form/login-form.component';
 import { ContributorFormComponent } from './form/contributor-form/contributor-form.component';
 import { CourseFormComponent } from './form/course-form/course-form.component';
+import { IfElsePipe } from './util/if-else.pipe';
+import { IfEqualElsePipe } from './util/if-equal-else.pipe';
+import { IfNotEqualElsePipe } from './util/if-not-equal-else.pipe';
+import { GraphEditorComponent } from './page/graph-editor/graph-editor.component';
+import { ScheduleEditorComponent } from './page/schedule-editor/schedule-editor.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +46,11 @@ import { CourseFormComponent } from './form/course-form/course-form.component';
     DeveloperBoardComponent,
     ContributorFormComponent,
     CourseFormComponent,
+    IfElsePipe,
+    IfEqualElsePipe,
+    IfNotEqualElsePipe,
+    GraphEditorComponent,
+    ScheduleEditorComponent,
   ],
   imports: [
     BrowserModule,

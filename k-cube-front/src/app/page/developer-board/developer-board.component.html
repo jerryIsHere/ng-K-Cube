@@ -1,5 +1,5 @@
 <mat-list role="listbox">
-    <mat-list-item role="option">Contributors
+    <mat-list-item role="option" style="background: grey">Contributors
         <button mat-flat-button (click)="createContributor()">
             <mat-icon>add</mat-icon>
         </button>
@@ -12,12 +12,14 @@
 </mat-list>
 <mat-divider></mat-divider>
 <mat-list role="listbox">
-    <mat-list-item role="option">Courses
+    <mat-list-item role="option" style="background: grey">Courses
         <button mat-flat-button (click)="createCourse()">
             <mat-icon>add</mat-icon>
         </button>
     </mat-list-item>
-    <mat-list-item role="option" *ngFor="let course of courses">{{course.course_name}}
+    <mat-list-item role="option" *ngFor="let course of courses"
+        [matTooltip]="$any((entities | filter : 'entity_id': course.entity_id | ifNotEqualElse : null : ['']))[0].name+''">
+        {{course.course_name}}
         <button mat-flat-button (click)="api.contributor.delete(course.course_id,{})">
             <mat-icon>delete</mat-icon>
         </button>
@@ -25,8 +27,15 @@
 </mat-list>
 <mat-divider></mat-divider>
 <mat-list role="listbox">
-    <mat-list-item role="option">Entities
+    <mat-list-item role="option" style="background: grey">Entities
     </mat-list-item>
     <mat-list-item role="option" *ngFor="let entity of entities">{{entity.name}}
+    </mat-list-item>
+</mat-list>
+<mat-divider></mat-divider>
+<mat-list role="listbox">
+    <mat-list-item role="option" style="background: grey">Relationships
+    </mat-list-item>
+    <mat-list-item role="option" *ngFor="let relationship of relationships">{{relationship.name}}
     </mat-list-item>
 </mat-list>

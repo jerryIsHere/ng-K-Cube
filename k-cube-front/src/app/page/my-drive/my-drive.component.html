@@ -1,4 +1,23 @@
 <mat-list role="listbox">
-    <mat-list-item role="option" *ngFor="let course of courses">{{course.course_name}}
+    <mat-list-item role="list">
+        <button mat-flat-button [routerLink]="['/my-drive/']">My drive&nbsp;</button>
+        <span *ngIf="selected_course">
+            <mat-icon>navigate_next</mat-icon>&nbsp;
+        </span>
+        <button mat-flat-button *ngIf="selected_course">
+            {{$any(selected_course.course_name)}}&nbsp;
+        </button>
     </mat-list-item>
+    <div *ngIf="selected_course == null">
+        <mat-list-item role="option" *ngFor="let course of courses" [routerLink]="['/my-drive/']"
+            [queryParams]="{ course_id: course.course_id }">
+            <mat-icon>folder</mat-icon><span>&nbsp;</span>{{course.course_name}}
+        </mat-list-item>
+    </div>
+    <div *ngIf="graphs">
+        <mat-list-item role="option" *ngFor="let graph of graphs" [routerLink]="['/graph-editor/']"
+            [queryParams]="{ graph_id: graph.graph_id }">
+            <mat-icon>folder</mat-icon><span>&nbsp;</span>{{graph.create_datetime | date : 'short'}}
+        </mat-list-item>
+    </div>
 </mat-list>

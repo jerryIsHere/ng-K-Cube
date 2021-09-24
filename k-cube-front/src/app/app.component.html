@@ -8,11 +8,11 @@
   <span style="flex: 1 1 auto"></span>
   <span>K Cube</span>
   <span style="flex: 1 1 auto"></span>
-  <span>{{user_name}}</span>
-  <button mat-icon-button (click)="login()" class="example-icon" *ngIf="person_id == null">
+  <span>{{auth.user_name}}</span>
+  <button mat-icon-button (click)="auth.login()" class="example-icon" *ngIf="!auth.isLogined">
     <mat-icon>login</mat-icon>
   </button>
-  <button mat-icon-button (click)="logout()" class="example-icon" *ngIf="person_id != null">
+  <button mat-icon-button (click)="auth.logout()" class="example-icon" *ngIf="auth.isLogined">
     <mat-icon>logout</mat-icon>
   </button>
 </mat-toolbar>
@@ -25,7 +25,7 @@
       <mat-list-item [routerLink]="['/all-courses']" matTooltip="edit or create courses">
         <a matLine>All Courses</a>
       </mat-list-item>
-      <mat-list-item [routerLink]="['/my-drive']" matTooltip="graphs & teaching plan" *ngIf="person_id">
+      <mat-list-item [routerLink]="['/my-drive']" matTooltip="graphs & teaching plan" *ngIf="auth.isLogined">
         <a matLine>My Drive</a>
       </mat-list-item>
     </mat-nav-list>

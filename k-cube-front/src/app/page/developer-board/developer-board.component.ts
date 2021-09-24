@@ -17,7 +17,7 @@ export class DeveloperBoardComponent implements OnInit {
     this.api.contributors.search({}).then(result => this.contributors = result)
     this.api.courses.search({}).then(result => this.courses = result)
     this.api.entities.search({}).then(result => this.entities = result)
-    this.api.relatipnships.search({}).then(result => this.relationships = result)
+    this.api.relationships.search({}).then(result => this.relationships = result)
   }
 
   ngOnInit(): void {
@@ -37,6 +37,7 @@ export class DeveloperBoardComponent implements OnInit {
     const dialogRef: MatDialogRef<CourseFormComponent> = this.dialog.open(CourseFormComponent)
     dialogRef.afterClosed().subscribe((result: any) => {
       this.api.courses.search({}).then(result => this.courses = result)
+      this.api.entities.search({}).then(result => this.entities = result)
     })
   }
   deleteCourse(course_id: any) {

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { LoginFormComponent } from './form/login-form/login-form.component';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { AuthService } from './user/auth.service';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,28 +10,15 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 export class AppComponent {
   pageThatNeedLogin = ['my-drive']
   navToggle = true
-  person_id = null;
-  user_name = null;
-  constructor(public dialog: MatDialog, public router: Router) {
+  constructor(public router: Router, public auth:AuthService) {
     this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
-        let page: string = this.router.url.split('/')[this.router.url.split('/').length - 1]
-        if (this.pageThatNeedLogin.includes(page) && this.person_id == null) {
+        let page: string = this.router.url.split('/')[this.router.url.split('/').length - 1].split('?')[0]
+        if (this.pageThatNeedLogin.includes(page) && !auth.isLogined) {
           this.router.navigate([''])
         }
       }
     })
   }
 
-  login() {
-    const dialogRef: MatDialogRef<LoginFormComponent> = this.dialog.open(LoginFormComponent);
-    dialogRef.afterClosed().subscribe((result: any) => {
-      this.person_id = result[0].person_id
-      this.user_name = result[0].name
-    })
-  }
-  logout() {
-    this.person_id = null
-    this.user_name = null
-  }
 }
