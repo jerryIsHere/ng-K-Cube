@@ -72,7 +72,7 @@ class Graph(Resource):
             cur.execute("select * from graphs where graph_id = ?", (cur.lastrowid,))
             row = cur.fetchone()
         except Exception as e:
-            return e, 500
+            return {"sql error": str(e)}, 500
         finally:
             db.close()
         return marshal(row, resource_fields), 200

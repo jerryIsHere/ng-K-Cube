@@ -10,8 +10,9 @@ export class MyDriveComponent implements OnInit {
   courses: Array<any> | null = null
   graphs: Array<any> | null = null
   constructor(public api: ApiAgentService) {
+    
     this.api.courses.search({}).then(result => this.courses = result)
-    this.api.graphs.search({}).then(result => this.courses = result)
+    this.api.graphs.search({}).then(result => this.graphs = result)
   }
 
   ngOnInit(): void {

@@ -2,18 +2,35 @@
 python ./kcubeback/app.py
 
 curl http://127.0.0.1:5000/contributors
+curl http://127.0.0.1:5000/entities
+curl http://127.0.0.1:5000/courses
+curl http://127.0.0.1:5000/graphs
+curl http://127.0.0.1:5000/schedules
+curl http://127.0.0.1:5000/triples
+curl http://127.0.0.1:5000/teachings
 
 curl "http://127.0.0.1:5000/contributors?name=ry"
 curl "http://127.0.0.1:5000/contributors?name=ry&person_id=1"
 
-curl http://127.0.0.1:5000/contributor -H "Content-Type: application/json;" -d {\"name\":\"jerry\"} -X POST -v
-curl http://127.0.0.1:5000/contributor -H "Content-Type: application/json;" -d {\"name\":\"tom\"} -X POST -v
-curl http://127.0.0.1:5000/contributor -H "Content-Type: application/json;" -d {\"name\":\"mary\"} -X POST -v
-curl http://127.0.0.1:5000/entity -d {\"name\":\"COMP1001\"} -X POST -v
-curl http://127.0.0.1:5000/entity -d {\"name\":\"COMP1002\"} -X POST -v
-curl http://127.0.0.1:5000/course -H "Content-Type: application/json;" -d {\"entity_id\":\"1\",\"course_name\":\"dummy1\"} -X POST -v
-curl http://127.0.0.1:5000/course -H "Content-Type: application/json;" -d {\"entity_id\":\"2\",\"course_name\":\"dummy2\"} POST -v
-curl http://127.0.0.1:5000/graph -H "Content-Type: application/json;" -d {\"person_id\":\"3\",\"course_id\":\"2\"} -X POST -v
+curl http://127.0.0.1:5000/contributor -H "Content-Type: application/json;" -d "{\"name\":\"alice\"}" -X POST -v
+curl http://127.0.0.1:5000/contributor -H "Content-Type: application/json;" -d "{\"name\":\"bob\"}" -X POST -v
+curl http://127.0.0.1:5000/entity -d "{\"name\":\"COMP1001\"}" -X POST -v
+curl http://127.0.0.1:5000/entity -d "{\"name\":\"COMP1002\"}" -X POST -v
+curl http://127.0.0.1:5000/entity -d "{\"name\":\"entity 3\"}" -X POST -v
+curl http://127.0.0.1:5000/entity -d "{\"name\":\"entity 4\"}" -X POST -v
+curl http://127.0.0.1:5000/entity -d "{\"name\":\"entity 5\"}" -X POST -v
+curl http://127.0.0.1:5000/relationship -d "{\"name\":\"relationship 1\"}" -X POST -v
+curl http://127.0.0.1:5000/course -H "Content-Type: application/json;" -d "{\"entity_id\":\"1\",\"course_name\":\"course 1\"}" -X POST -v
+curl http://127.0.0.1:5000/course -H "Content-Type: application/json;" -d "{\"entity_id\":\"2\",\"course_name\":\"course 2\"}" POST -v
+curl http://127.0.0.1:5000/graph -H "Content-Type: application/json;" -d "{\"person_id\":\"1\",\"course_id\":\"1\"}" -X POST -v
+curl http://127.0.0.1:5000/triple -H "Content-Type: application/json;" -d "{\"graph_id\":\"1\",\"head_entity\":\"1\",\"relationship\":\"1\",\"tail_entity\":\"3\"}" -X POST -v
+curl http://127.0.0.1:5000/triple -H "Content-Type: application/json;" -d "{\"graph_id\":\"1\",\"head_entity\":\"1\",\"relationship\":\"1\",\"tail_entity\":\"4\"}" -X POST -v
+curl http://127.0.0.1:5000/triple -H "Content-Type: application/json;" -d "{\"graph_id\":\"1\",\"head_entity\":\"3\",\"relationship\":\"1\",\"tail_entity\":\"5\"}" -X POST -v
+curl http://127.0.0.1:5000/schedule -H "Content-Type: application/json;" -d "{\"graph_id\":\"1\"}" -X POST -v
+curl http://127.0.0.1:5000/teaching -H "Content-Type: application/json;" -d "{\"schedule_id\":\"1\",\"entity_id\":\"1\",\"start\":\"0\",\"duration\":\"1\"}" -X POST -v
+
+curl http://127.0.0.1:5000/teaching -H "Content-Type: application/json;" -d "{\"schedule_id\":\"1\",\"entity_id\":\"2\",\"start\":\"0\",\"duration\":\"1\"}" -X POST -v
 
 cd k-cube-front
 ng serve --open
+

@@ -67,7 +67,7 @@ class Relationship(Resource):
             cur.execute("select * from relationships where relationship_id = ?", (cur.lastrowid,))
             row = cur.fetchone()
         except Exception as e:
-            return e, 500
+            return {"sql error": str(e)}, 500
         finally:
             db.close()
         return marshal(row, resource_fields), 200

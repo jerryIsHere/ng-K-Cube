@@ -21,12 +21,8 @@ class QuerySchema(Schema):
 
 class Triples(Resource):
     def get(self):
-        if request.data == None and request.data == "":
-            json_data = {}
-        try:
-            json_data = request.get_json(force=True)
-        except:
-            json_data = {}
+        error = QuerySchema().validate(request.args)
+        query = QuerySchema().dump(request.args)
         try:
             db = get_db()
             cur = db.cursor()
@@ -83,7 +79,7 @@ class Triple(Resource):
             cur.execute("select * from triples where triple_id = ?", (cur.lastrowid,))
             row = cur.fetchone()
         except Exception as e:
-            return e, 500
+            return {"sql error": str(e)}, 500
         finally:
             db.close()
         return marshal(row, resource_fields), 200

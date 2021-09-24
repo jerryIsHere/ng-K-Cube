@@ -12,10 +12,12 @@ export class DeveloperBoardComponent implements OnInit {
   contributors: Array<any> | null = null
   courses: Array<any> | null = null
   entities: Array<any> | null = null
+  relationships: Array<any> | null = null
   constructor(public api: ApiAgentService, public dialog: MatDialog) {
     this.api.contributors.search({}).then(result => this.contributors = result)
     this.api.courses.search({}).then(result => this.courses = result)
     this.api.entities.search({}).then(result => this.entities = result)
+    this.api.relatipnships.search({}).then(result => this.relationships = result)
   }
 
   ngOnInit(): void {

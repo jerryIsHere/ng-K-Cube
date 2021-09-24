@@ -67,6 +67,37 @@ class Teaching(Resource):
             cur = db.cursor()
             now = datetime.datetime.now()
             cur.execute(
+            #     """
+            #                 SELECT *
+            #                 FROM 
+            #                 (SELECT * FROM schedules WHERE schedules.schedule_id = ?) AS s 
+            #                 INNER JOIN graphs on graphs.graph_id = s.graph_id 
+            #                 INNER JOIN triples ON triples.graph_id = graphs.graph_id
+            #                 INNER JOIN (SELECT * FROM entities WHERE entities.entity_id = ?) AS e
+            #                  ON e.entity_id = triples.head_entity
+            #                 UNION
+            #                 SELECT *
+            #                 FROM 
+            #                 (SELECT * FROM schedules WHERE schedules.schedule_id = ?) AS s 
+            #                 INNER JOIN graphs on graphs.graph_id = s.graph_id 
+            #                 INNER JOIN triples ON triples.graph_id = graphs.graph_id
+            #                 INNER JOIN (SELECT * FROM entities WHERE entities.entity_id = ?) AS e
+            #                  ON e.entity_id = triples.tail_entity                       
+            # """,
+            #     (
+            #         json_data["schedule_id"],
+            #         json_data["entity_id"],
+            #         json_data["schedule_id"],
+            #         json_data["entity_id"],
+            #     ),
+            # )
+            # db.commit()
+            # rows = cur.fetchall()
+            # print(rows[0].keys())
+            # for row in rows:
+            #     print(" ".join([str(row[key]) for key in row.keys()]))
+            # print("select")
+            # cur.execute(
                 "INSERT INTO teachings(schedule_id,entity_id,start,duration) VALUES (?,?,?,?)",
                 (
                     json_data["schedule_id"],
@@ -82,7 +113,7 @@ class Teaching(Resource):
             )
             row = cur.fetchone()
         except Exception as e:
-            return e, 500
+            return {"sql error": str(e)}, 500
         finally:
             db.close()
         return marshal(row, resource_fields), 200

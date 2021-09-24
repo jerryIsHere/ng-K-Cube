@@ -63,7 +63,7 @@ class Schedule(Resource):
             cur = db.cursor()
             now = datetime.datetime.now()
             cur.execute(
-                "INSERT INTO schedules(graph_id,create_datetime,last_update) VALUES (?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)",
+                "INSERT INTO schedules(graph_id,create_datetime,last_update) VALUES (?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)",
                 (json_data["graph_id"]),
             )
             db.commit()
@@ -71,7 +71,7 @@ class Schedule(Resource):
             cur.execute("select * from schedules where schedule_id = ?", (cur.lastrowid,))
             row = cur.fetchone()
         except Exception as e:
-            return e, 500
+            return {"sql error": str(e)}, 500
         finally:
             db.close()
         return marshal(row, resource_fields), 200

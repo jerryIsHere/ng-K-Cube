@@ -91,6 +91,33 @@ def create_tables():
                 FOREIGN KEY(entity_id) REFERENCES entities(entity_id)
             )
             """,
+            """CREATE TRIGGER IF NOT EXISTS teachings_entity_transitive_constraint 
+                BEFORE INSERT ON teachings
+                BEGIN
+                    SELECT
+                    CASE
+	                    WHEN NOT EXISTS(
+                            SELECT *
+                            FROM 
+                            (SELECT * FROM schedules WHERE schedules.schedule_id = NEW.schedule_id) AS s 
+                            INNER JOIN graphs on graphs.graph_id = s.graph_id 
+                            INNER JOIN triples ON triples.graph_id = graphs.graph_id
+                            INNER JOIN (SELECT * FROM entities WHERE entities.entity_id = NEW.entity_id) AS e 
+                            ON e.entity_id = triples.head_entity
+                            UNION
+                            SELECT *
+                            FROM 
+                            (SELECT * FROM schedules WHERE schedules.schedule_id = NEW.schedule_id) AS s 
+                            INNER JOIN graphs on graphs.graph_id = s.graph_id 
+                            INNER JOIN triples ON triples.graph_id = graphs.graph_id
+                            INNER JOIN (SELECT * FROM entities WHERE entities.entity_id = NEW.entity_id) AS e 
+                            ON e.entity_id = triples.tail_entity 
+                        ) THEN
+   	                        RAISE (ABORT,'insert teaching failed: entity does not belongs graph of the schedule')
+                    END;
+                END;
+            """
+
     ]
     db = get_db()
     cursor = db.cursor()

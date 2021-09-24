@@ -50,16 +50,13 @@ class Course(Resource):
         return marshal(row, resource_fields), 200
 
     def post(self):
-
         try:
             json_data = request.get_json(force=True)
         except:
             json_data = {}
-        print(json_data)
         try:
             db = get_db()
             cur = db.cursor()
-            print(json_data)
             cur.execute(
                 "INSERT INTO courses(entity_id,course_name) VALUES (?,?)",
                 (
@@ -68,11 +65,10 @@ class Course(Resource):
                 ),
             )
             db.commit()
-            print(json_data)
             cur.execute("select * from courses where course_id = ?", (cur.lastrowid,))
             row = cur.fetchone()
         except Exception as e:
-            return e, 500
+            return {"sql error": str(e)}, 500
         finally:
             db.close()
         return marshal(row, resource_fields), 200
