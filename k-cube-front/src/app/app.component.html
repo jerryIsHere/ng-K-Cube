@@ -2,7 +2,7 @@
   <button mat-icon-button class="example-icon">
     <mat-icon (click)="sideNav?.toggle()">menu</mat-icon>
   </button>
-  <button mat-icon-button [routerLink]="['/developer-board']" class="example-icon">
+  <button mat-icon-button [routerLink]="['/developer-board']" class="example-icon" *ngIf="auth.isLogined">
     <mat-icon>developer_board</mat-icon>
   </button>
   <span style="flex: 1 1 auto"></span>

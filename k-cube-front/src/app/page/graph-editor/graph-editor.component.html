@@ -1,5 +1,12 @@
-<mat-list-item role="list">
-    <app-file-path-bar [paths]="paths"></app-file-path-bar>
-</mat-list-item>
-<div #echarts=echarts (chartClick)="clickGraph($event)" echarts [options]="options" style="width: 99%; height: 99%;">
+<div style="display:flex; height: 100%; width: 100%; flex-direction: column;">
+    <div style="flex: 0 1 auto;">
+        <mat-list-item role="list">
+            <app-file-path-bar [paths]="paths"></app-file-path-bar>
+        </mat-list-item>
+    </div>
+    <div style="flex: 1 1 auto; ">
+        <div #echarts=echarts (chartClick)="clickGraph($event)" echarts [options]="options" style="height:100%;">
+        </div>
+
+    </div>
 </div>

@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./my-drive.component.css']
 })
 export class MyDriveComponent implements OnInit {
+  searchingString: string = ''
   courses: Array<any> | undefined
   graphs: Array<any> | undefined
   selected_course: any | undefined

@@ -3,8 +3,11 @@
         <app-file-path-bar [paths]="paths"></app-file-path-bar>
     </mat-list-item>
     <div *ngIf="!selected_course">
-        <mat-list-item role="option" *ngFor="let course of courses" [routerLink]="['/my-drive/']"
-            [queryParams]="{ course_id: course.course_id }">
+        <mat-form-field>
+            <input matInput placeholder="Filter..." value="" [(ngModel)]="searchingString">
+        </mat-form-field>
+        <mat-list-item role="option" *ngFor="let course of courses | search:'course_name':searchingString"
+            [routerLink]="['/my-drive/']" [queryParams]="{ course_id: course.course_id }">
             <mat-icon>folder</mat-icon><span>&nbsp;</span>{{course.course_name}}
         </mat-list-item>
     </div>

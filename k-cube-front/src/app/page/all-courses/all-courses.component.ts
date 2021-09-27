@@ -8,6 +8,7 @@ import { ApiAgentService } from 'src/app/api-agent.service';
 })
 export class AllCoursesComponent implements OnInit {
   courses: Array<any> | undefined
+  searchingString: string = ''
   constructor(public api: ApiAgentService) {
     this.api.courses.search({}).then(result => this.courses = result)
   }

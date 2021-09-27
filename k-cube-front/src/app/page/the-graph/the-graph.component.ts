@@ -67,7 +67,7 @@ export class TheGraphComponent implements OnInit {
         gravity: 0.01,
         edgeLength: 100,
       },
-
+      roam: 'scale',
       draggable: true,
     }
     this.options = {

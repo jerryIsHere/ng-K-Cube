@@ -9,6 +9,7 @@ import { CourseFormComponent } from 'src/app/form/course-form/course-form.compon
   styleUrls: ['./developer-board.component.css']
 })
 export class DeveloperBoardComponent implements OnInit {
+  searchingString: string = ''
   contributors: Array<any> | undefined
   courses: Array<any> | undefined
   entities: Array<any> | undefined
@@ -42,7 +43,7 @@ export class DeveloperBoardComponent implements OnInit {
   }
   deleteCourse(course_id: any) {
     this.api.course.delete(course_id, {}).then(result => {
-      this.api.courses.search({}).then(result => this.contributors = result)
+      this.api.courses.search({}).then(result => this.courses = result)
     })
   }
 }

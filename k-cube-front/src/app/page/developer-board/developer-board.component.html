@@ -1,10 +1,14 @@
+<mat-form-field>
+    <input matInput placeholder="Filter..." value="" [(ngModel)]="searchingString">
+</mat-form-field>
 <mat-list role="listbox">
     <mat-list-item role="option" style="background: grey">Contributors
         <button mat-flat-button (click)="createContributor()">
             <mat-icon>add</mat-icon>
         </button>
     </mat-list-item>
-    <mat-list-item role="option" *ngFor="let contributor of contributors">{{contributor.name}}
+    <mat-list-item role="option" *ngFor="let contributor of contributors | search:'name':searchingString">
+        {{contributor.name}}
         <button mat-flat-button (click)="deleteContributor(contributor.person_id)">
             <mat-icon>delete</mat-icon>
         </button>
@@ -17,10 +21,10 @@
             <mat-icon>add</mat-icon>
         </button>
     </mat-list-item>
-    <mat-list-item role="option" *ngFor="let course of courses"
+    <mat-list-item role="option" *ngFor="let course of courses | search:'course_name':searchingString"
         [matTooltip]="$any((entities | filter : 'entity_id': course.entity_id | ifNotEqualElse : null : ['']))[0].name+''">
         {{course.course_name}}
-        <button mat-flat-button (click)="api.contributor.delete(course.course_id,{})">
+        <button mat-flat-button (click)="deleteCourse(course.course_id)">
             <mat-icon>delete</mat-icon>
         </button>
     </mat-list-item>
@@ -29,13 +33,14 @@
 <mat-list role="listbox">
     <mat-list-item role="option" style="background: grey">Entities
     </mat-list-item>
-    <mat-list-item role="option" *ngFor="let entity of entities">{{entity.name}}
+    <mat-list-item role="option" *ngFor="let entity of entities | search:'name':searchingString">{{entity.name}}
     </mat-list-item>
 </mat-list>
 <mat-divider></mat-divider>
 <mat-list role="listbox">
     <mat-list-item role="option" style="background: grey">Relationships
     </mat-list-item>
-    <mat-list-item role="option" *ngFor="let relationship of relationships">{{relationship.name}}
+    <mat-list-item role="option" *ngFor="let relationship of relationships | search:'name':searchingString">
+        {{relationship.name}}
     </mat-list-item>
 </mat-list>

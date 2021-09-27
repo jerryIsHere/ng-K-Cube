@@ -37,6 +37,7 @@ import { ScheduleEditorComponent } from './page/schedule-editor/schedule-editor.
 import { TripleFormComponent } from './form/triple-form/triple-form.component';
 import { TeachingFormComponent } from './form/teaching-form/teaching-form.component';
 import { FilePathBarComponent } from './gadget/file-path-bar/file-path-bar.component';
+import { SearchPipe } from './util/search.pipe';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { FilePathBarComponent } from './gadget/file-path-bar/file-path-bar.compo
     TripleFormComponent,
     TeachingFormComponent,
     FilePathBarComponent,
+    SearchPipe,
   ],
   imports: [
     BrowserModule,

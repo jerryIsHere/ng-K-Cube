@@ -1,4 +1,4 @@
-<button mat-mini-fab (click)="dialogRef.close()" style="float: right;" color="primary">
+<button mat-mini-fab (click)="dialogRef.close();this.editor?.unSelectAll()" style="float: right;" color="primary">
     <mat-icon>cancel</mat-icon>
 </button>
 <button mat-flat-button *ngIf="triple_id" color="warn" (click)="delete()">

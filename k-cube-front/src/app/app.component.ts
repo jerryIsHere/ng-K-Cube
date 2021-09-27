@@ -11,7 +11,7 @@ NavBarService
 })
 export class AppComponent {
   @ViewChild(MatSidenav) sideNav: MatSidenav | undefined;
-  pageThatNeedLogin = ['my-drive', 'graph-editor', 'schedule-deitor']
+  pageThatNeedLogin = ['my-drive', 'graph-editor', 'schedule-deitor', 'developer-board']
   navToggle = true
   constructor(public router: Router, public auth: AuthService, public nav: NavBarService, public cd: ChangeDetectorRef) {
     this.router.events.subscribe(e => {

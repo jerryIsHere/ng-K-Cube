@@ -1,4 +1,8 @@
+<mat-form-field>
+    <input matInput placeholder="Filter..." value="" [(ngModel)]="searchingString">
+</mat-form-field>
 <mat-list role="listbox">
-    <mat-list-item role="option" *ngFor="let course of courses">{{course.course_name}}
+    <mat-list-item role="option" *ngFor="let course of courses | search:'course_name':searchingString">
+        {{course.course_name}}
     </mat-list-item>
 </mat-list>
