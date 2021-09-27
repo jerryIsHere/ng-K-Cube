@@ -108,11 +108,11 @@ class Entity(Resource):
         try:
             db = get_db()
             cur = db.cursor()
-            cur.execute("DELETE from entities where entity_id = ?", (entity_id))
+            cur.execute("DELETE from entities where entity_id = ?", (entity_id,))
             db.commit()
-        except:
+        except Exception as e:
             db.rollback()
-            return {}, 404
+            return {"sql error": str(e)}, 500
         finally:
             db.close()
         return {}, 200

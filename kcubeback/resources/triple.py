@@ -122,13 +122,14 @@ class Triple(Resource):
         if triple_id is None:
             return None, 400
         try:
+            print(triple_id)
             db = get_db()
             cur = db.cursor()
-            cur.execute("DELETE from triples where triple_id = ?", (triple_id))
+            cur.execute("DELETE from triples where triple_id = ?", (triple_id,))
             db.commit()
-        except:
+        except Exception as e:
             db.rollback()
-            return {}, 404
+            return {"sql error": str(e)}, 500
         finally:
             db.close()
         return {}, 200

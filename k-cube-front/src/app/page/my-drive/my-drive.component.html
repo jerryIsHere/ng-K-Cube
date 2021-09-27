@@ -1,14 +1,8 @@
 <mat-list role="listbox">
     <mat-list-item role="list">
-        <button mat-flat-button [routerLink]="['/my-drive/']">My drive&nbsp;</button>
-        <span *ngIf="selected_course">
-            <mat-icon>navigate_next</mat-icon>&nbsp;
-        </span>
-        <button mat-flat-button *ngIf="selected_course">
-            {{$any(selected_course.course_name)}}&nbsp;
-        </button>
+        <app-file-path-bar [paths]="paths"></app-file-path-bar>
     </mat-list-item>
-    <div *ngIf="selected_course == null">
+    <div *ngIf="!selected_course">
         <mat-list-item role="option" *ngFor="let course of courses" [routerLink]="['/my-drive/']"
             [queryParams]="{ course_id: course.course_id }">
             <mat-icon>folder</mat-icon><span>&nbsp;</span>{{course.course_name}}
@@ -21,3 +15,7 @@
         </mat-list-item>
     </div>
 </mat-list>
+<button mat-fab *ngIf="selected_course" style="float: right; right: 2vw; bottom: 2vw; position: fixed"
+    (click)="createGraph()">
+    <mat-icon>add</mat-icon>
+</button>

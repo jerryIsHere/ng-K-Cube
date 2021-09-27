@@ -19,11 +19,12 @@ import { FilterPipe } from './util/filter.pipe';
 import { FlatMapPipe } from './util/flat-map.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDividerModule } from '@angular/material/divider';
-
+import { NgxEchartsModule } from 'ngx-echarts';
 import { TheGraphComponent } from './page/the-graph/the-graph.component';
 import { AllCoursesComponent } from './page/all-courses/all-courses.component';
 import { MyDriveComponent } from './page/my-drive/my-drive.component';
 import { DeveloperBoardComponent } from './page/developer-board/developer-board.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { LoginFormComponent } from './form/login-form/login-form.component';
 import { ContributorFormComponent } from './form/contributor-form/contributor-form.component';
@@ -33,6 +34,9 @@ import { IfEqualElsePipe } from './util/if-equal-else.pipe';
 import { IfNotEqualElsePipe } from './util/if-not-equal-else.pipe';
 import { GraphEditorComponent } from './page/graph-editor/graph-editor.component';
 import { ScheduleEditorComponent } from './page/schedule-editor/schedule-editor.component';
+import { TripleFormComponent } from './form/triple-form/triple-form.component';
+import { TeachingFormComponent } from './form/teaching-form/teaching-form.component';
+import { FilePathBarComponent } from './gadget/file-path-bar/file-path-bar.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +55,9 @@ import { ScheduleEditorComponent } from './page/schedule-editor/schedule-editor.
     IfNotEqualElsePipe,
     GraphEditorComponent,
     ScheduleEditorComponent,
+    TripleFormComponent,
+    TeachingFormComponent,
+    FilePathBarComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,6 +76,10 @@ import { ScheduleEditorComponent } from './page/schedule-editor/schedule-editor.
     MatInputModule,
     HttpClientModule,
     MatDividerModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    }),
+    MatAutocompleteModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -7,7 +7,7 @@ import { ApiAgentService } from 'src/app/api-agent.service';
   styleUrls: ['./all-courses.component.css']
 })
 export class AllCoursesComponent implements OnInit {
-  courses: Array<any> | null = null
+  courses: Array<any> | undefined
   constructor(public api: ApiAgentService) {
     this.api.courses.search({}).then(result => this.courses = result)
   }

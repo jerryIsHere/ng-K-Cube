@@ -9,10 +9,10 @@ import { CourseFormComponent } from 'src/app/form/course-form/course-form.compon
   styleUrls: ['./developer-board.component.css']
 })
 export class DeveloperBoardComponent implements OnInit {
-  contributors: Array<any> | null = null
-  courses: Array<any> | null = null
-  entities: Array<any> | null = null
-  relationships: Array<any> | null = null
+  contributors: Array<any> | undefined
+  courses: Array<any> | undefined
+  entities: Array<any> | undefined
+  relationships: Array<any> | undefined
   constructor(public api: ApiAgentService, public dialog: MatDialog) {
     this.api.contributors.search({}).then(result => this.contributors = result)
     this.api.courses.search({}).then(result => this.courses = result)

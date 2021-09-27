@@ -1,6 +1,6 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" style="height: 10vh;">
   <button mat-icon-button class="example-icon">
-    <mat-icon (click)="navToggle = !navToggle">menu</mat-icon>
+    <mat-icon (click)="sideNav?.toggle()">menu</mat-icon>
   </button>
   <button mat-icon-button [routerLink]="['/developer-board']" class="example-icon">
     <mat-icon>developer_board</mat-icon>
@@ -16,8 +16,8 @@
     <mat-icon>logout</mat-icon>
   </button>
 </mat-toolbar>
-<mat-sidenav-container style="height: 100vh;">
-  <mat-sidenav mode="side" [opened]="navToggle" style="width: 10vw;">
+<mat-sidenav-container style="height: 90vh;">
+  <mat-sidenav mode="side" style="width: 10vw;">
     <mat-nav-list>
       <mat-list-item [routerLink]="['/the-graph']" matTooltip="comprehensive view of all graphs">
         <a matLine>The Graph</a>

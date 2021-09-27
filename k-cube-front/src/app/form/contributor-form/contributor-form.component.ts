@@ -9,7 +9,7 @@ import { ApiAgentService } from '../../api-agent.service';
   styleUrls: ['./contributor-form.component.css']
 })
 export class ContributorFormComponent implements OnInit {
-  form: FormGroup | null = null
+  form: FormGroup | undefined
   constructor(public api: ApiAgentService, public dialogRef: MatDialogRef<ContributorFormComponent>,) {
     this.form = new FormGroup({
       name: new FormControl({ value: '', disabled: false }, Validators.required),

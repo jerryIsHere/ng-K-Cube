@@ -1,0 +1,6 @@
+<div *ngFor="let path of paths; let i = index" style="display: inline-block;">
+    <button mat-flat-button [routerLink]="[path.route]" [queryParams]="path.query">{{path.text}}&nbsp;</button>
+    <span *ngIf="i < paths.length-1">
+        <mat-icon>navigate_next</mat-icon>&nbsp;
+    </span>
+</div>
