@@ -1,5 +1,11 @@
+
+For backend server:
 ..\virtualenv\k-cube-execute\Scripts\activate.bat
 python ./kcubeback/app.py
+
+For frontend server:
+cd k-cube-front
+ng serve --open
 
 curl http://127.0.0.1:5000/contributors
 curl http://127.0.0.1:5000/entities
@@ -32,6 +38,4 @@ curl http://127.0.0.1:5000/teaching -H "Content-Type: application/json;" -d "{\"
 
 curl http://127.0.0.1:5000/teaching -H "Content-Type: application/json;" -d "{\"schedule_id\":\"1\",\"entity_id\":\"2\",\"start\":\"0\",\"duration\":\"1\"}" -X POST -v
 
-cd k-cube-front
-ng serve --open
 
